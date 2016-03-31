@@ -1,0 +1,53 @@
+--- RabbitMQ.pp.orig	2016-03-17 23:02:05.000000000 +0000
++++ RabbitMQ.pp	2016-03-17 22:50:15.000000000 +0000
+@@ -79,28 +79,28 @@
+     }
+   }
+ 
+-  if array_true($php, 'install') and ! defined(Puphpet::Php::Pecl['amqp']) {
+-    $rabbitmq_dev_pkg = $::osfamily ? {
+-      'debian' => 'librabbitmq-dev',
+-      'redhat' => 'librabbitmq-devel',
+-    }
+-
+-    if ! defined(Package[$rabbitmq_dev_pkg]) {
+-      package { $rabbitmq_dev_pkg:
+-        ensure => present,
+-      }
+-    }
+-
+-    $pecl_pkg = 'amqp'
+-
+-    puphpet::php::pecl { $pecl_pkg:
+-      service_autorestart => $webserver_restart,
+-      require             => [
+-        Package['rabbitmq-server'],
+-        Package[$rabbitmq_dev_pkg],
+-      ]
+-    }
+-  }
++#  if array_true($php, 'install') and ! defined(Puphpet::Php::Pecl['amqp']) {
++#    $rabbitmq_dev_pkg = $::osfamily ? {
++#      'debian' => 'librabbitmq-dev',
++#      'redhat' => 'librabbitmq-devel',
++#    }
++#
++#    if ! defined(Package[$rabbitmq_dev_pkg]) {
++#      package { $rabbitmq_dev_pkg:
++#        ensure => present,
++#      }
++#    }
++#
++#    $pecl_pkg = 'amqp'
++#
++#    puphpet::php::pecl { $pecl_pkg:
++#      service_autorestart => $webserver_restart,
++#      require             => [
++#        Package['rabbitmq-server'],
++#        Package[$rabbitmq_dev_pkg],
++#      ]
++#    }
++#  }
+ 
+   if ! defined(Puphpet::Firewall::Port["${settings['port']}"]) {
+     puphpet::firewall::port { "${settings['port']}": }
